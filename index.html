@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Copie o link</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; background: #000; color: #fff; font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  main { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 24px; text-align: center; }
+  img { max-width: 100%; width: 440px; height: auto; display: block; }
+  .box { display: flex; gap: 8px; width: 100%; max-width: 420px; }
+  input { flex: 1; min-width: 0; background: #111; color: #fff; border: 1px solid #333; border-radius: 10px; padding: 14px; font-size: 1rem; }
+  button { background: #ff2d8f; color: #fff; border: 0; border-radius: 10px; padding: 14px 20px; font-size: 1rem; font-weight: 700; cursor: pointer; }
+  button:active { background: #d81b76; }
+</style>
+</head>
+<body>
+<main>
+  <img id="imagem" alt="Copie o link abaixo e cole no navegador" src="imagem.jpg">
+  <div class="box">
+    <input id="link" type="text" readonly value="https://tinyurl.com/4jhsfcht">
+    <button id="copiar" type="button">Copiar</button>
+  </div>
+</main>
+<script>
+  var input = document.getElementById('link');
+  var btn = document.getElementById('copiar');
+  btn.addEventListener('click', function () {
+    function ok() { btn.textContent = 'Copiado!'; setTimeout(function () { btn.textContent = 'Copiar'; }, 2000); }
+    function fallback() {
+      input.focus(); input.select(); input.setSelectionRange(0, 99999);
+      try { document.execCommand('copy'); ok(); } catch (e) {}
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(input.value).then(ok, fallback);
+    } else { fallback(); }
+  });
+  input.addEventListener('focus', function () { input.select(); });
+</script>
+</body>
+</html>
